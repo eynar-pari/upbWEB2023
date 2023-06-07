@@ -58,6 +58,52 @@ public class CreateProjectTest {
         String expectedResult =nameProject;
         Assertions.assertEquals(expectedResult,actualResult,"ERROR, the project was not created");
 
+
+        // update
+
+        // click on project name
+        chrome.findElement(By.xpath("(//li//td[text()='"+nameProject+"'])[last()]")).click();
+        // click on menu icon
+        chrome.findElement(By.xpath("//div[@style=\"display: block;\"]/img")).click();
+
+        // click on edit button
+        chrome.findElement(By.xpath("//ul[contains(@style,'block')]//a[text()='Edit']")).click();
+        // update name project
+        String nameUpdateProject = "Upb"+new Date().getTime();
+        chrome.findElement(By.xpath("//td/div/input[@id=\"ItemEditTextbox\"]")).clear();
+        chrome.findElement(By.xpath("//td/div/input[@id=\"ItemEditTextbox\"]")).sendKeys(nameUpdateProject);
+
+        //save update
+        chrome.findElement(By.xpath("//td/div/img[@id=\"ItemEditSubmit\"]")).click();
+
+
+        Thread.sleep(2000);
+        // verification 1
+
+         actualResult=chrome.findElement(By.id("CurrentProjectTitle")).getText();
+         expectedResult =nameUpdateProject;
+        Assertions.assertEquals(expectedResult,actualResult,"ERROR, the project was not created");
+
+        //delete
+
+        // click on project name
+        chrome.findElement(By.xpath("(//li//td[text()='"+nameUpdateProject+"'])[last()]")).click();
+        // click on menu icon
+        chrome.findElement(By.xpath("//div[@style=\"display: block;\"]/img")).click();
+        // click delete
+        chrome.findElement(By.id("ProjShareMenuDel")).click();
+
+        // accept alert
+        chrome.switchTo().alert().accept();
+
+
+        Thread.sleep(2000);
+        // verification 1
+
+        Assertions.assertTrue(chrome.findElements(By.xpath("(//li//td[text()='"+nameUpdateProject+"'])[last()]")).size() == 0,
+                "ERROR, the project was not deleted");
+
+
     }
 
 
